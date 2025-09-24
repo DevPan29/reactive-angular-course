@@ -16,9 +16,9 @@ import {CoursesService} from "../services/courses.service";
 })
 export class HomeComponent implements OnInit {
 
-  beginnerCourses: Course[];
+  beginnerCourses$: Observable<Course[]>;
 
-  advancedCourses: Course[];
+  advancedCourses$: Observable<Course[]>;
 
 
   constructor(private courseService: CoursesService, private dialog: MatDialog) {
@@ -27,17 +27,22 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.http.get('/api/courses')
-      .subscribe(
-        res => {
+    const courses$ = this.courseService.loadAllCourses()
+      .pipe(
+        map(courses => courses.sort(sortCoursesBySeqNo))
+      );
 
-          const courses: Course[] = res["payload"].sort(sortCoursesBySeqNo);
+    courses$.subscribe((res) => console.log(res))
 
-          this.beginnerCourses = courses.filter(course => course.category == "BEGINNER");
+    this.beginnerCourses$ = courses$
+    .pipe(
+      map(courses => courses.filter((course) => course.category == 'BEGINNER'))
+    );
 
-          this.advancedCourses = courses.filter(course => course.category == "ADVANCED");
-
-        });
+    this.advancedCourses$ = courses$
+      .pipe(
+        map(courses => courses.filter((course) => course.category == 'ADVANCED'))
+      );
 
   }
 
