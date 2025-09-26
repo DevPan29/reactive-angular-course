@@ -13,7 +13,7 @@ import {
 import {MatTab} from "@angular/material/tabs";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {CourseDialogComponent} from "../course-dialog/course-dialog.component";
-import {filter} from "rxjs/operators";
+import {filter, tap} from "rxjs/operators";
 
 @Component({
   selector: 'courses-card-list',
@@ -58,7 +58,8 @@ export class CoursesCardListComponent implements OnInit{
 
     dialogRef.afterClosed()
       .pipe(
-        filter(val => !!val)
+        filter(val => !!val),
+        tap(() => this.courseChanged.emit())
       )
       .subscribe()
 
