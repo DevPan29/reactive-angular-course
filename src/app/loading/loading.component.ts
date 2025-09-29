@@ -11,7 +11,7 @@ import {LoadingService} from "./loading.service";
 export class LoadingComponent implements OnInit {
 
 
-  constructor(private loadingService: LoadingService) {
+  constructor(public loadingService: LoadingService) {
 
   }
 
