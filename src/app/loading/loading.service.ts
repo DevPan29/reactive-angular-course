@@ -11,6 +11,10 @@ export class LoadingService {
 
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
+  constructor() {
+    console.log("Loading Service created ...");
+  }
+
   showLoaderUntilCompleted<T>(obs$: Observable<T>): Observable<T> {
     return of(null)
       .pipe(
