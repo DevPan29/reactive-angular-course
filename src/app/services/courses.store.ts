@@ -39,6 +39,35 @@ private loadAllCourses() {
     .subscribe();
 }
 
+saveCourse(courseId: string, changes: Partial<Course>): Observable<any> {
+  // modify date in memory
+  const courses = this.subject.getValue(); // last courses array before update
+
+  const index = courses.findIndex(course => course.id === courseId);
+
+  const newCourse: Course = {
+    ...courses[index],
+    ...changes
+  }
+
+  const newCourses: Course[] = courses.slice(0);
+
+  newCourses[index] = newCourse;
+
+  this.subject.next(newCourses);
+
+  return this.http.put(`/api/courses/${courseId}`, changes)
+  .pipe(
+    catchError(err => {
+      const message = 'Could not save course';
+      console.log(message, err)
+      this.messageService.showErrors(message)
+      return throwError(err)
+    }),
+    shareReplay()
+  )
+}
+
   filterByCategory(category: string): Observable<Course[]> {
     return this.courses$
       .pipe(
