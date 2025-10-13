@@ -14,6 +14,7 @@ import {MatTab} from "@angular/material/tabs";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {CourseDialogComponent} from "../course-dialog/course-dialog.component";
 import {filter, tap} from "rxjs/operators";
+import {RouterModule} from "@angular/router";
 
 @Component({
   selector: 'courses-card-list',
@@ -27,7 +28,8 @@ import {filter, tap} from "rxjs/operators";
     MatCardImage,
     MatCardTitle,
     MatTab,
-    NgForOf
+    NgForOf,
+    RouterModule
   ],
   templateUrl: './courses-card-list.component.html',
   styleUrl: './courses-card-list.component.scss'
