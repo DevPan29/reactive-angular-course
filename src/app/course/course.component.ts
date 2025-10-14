@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../model/course';
 import {
@@ -27,7 +27,8 @@ interface CourseData {
     selector: 'course',
     templateUrl: './course.component.html',
     styleUrls: ['./course.component.css'],
-    standalone: false
+    standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseComponent implements OnInit {
 
@@ -46,8 +47,14 @@ export class CourseComponent implements OnInit {
 
   const courseId = parseInt(this.route.snapshot.paramMap.get("courseId"))
 
-    const course$ = this.coursesService.loadCourseById(courseId);
-    const lessons$ = this.coursesService.loadAllCourseLessons(courseId);
+    const course$ = this.coursesService.loadCourseById(courseId)
+    .pipe(
+      startWith(null),
+    );
+    const lessons$ = this.coursesService.loadAllCourseLessons(courseId)
+    .pipe(
+      startWith(null),
+    );;
 
     this.data$ = combineLatest([course$, lessons$])
       .pipe(
@@ -57,7 +64,7 @@ export class CourseComponent implements OnInit {
               lessons
             }
         }),
-        tap(() => {console.log(`courseData loaded`)})
+        tap((data) => {console.log(`${JSON.stringify(data)} `)}),
       );
   }
 

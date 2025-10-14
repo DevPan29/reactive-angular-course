@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Course, sortCoursesBySeqNo} from '../model/course';
 import {interval, noop, Observable, of, throwError, timer} from 'rxjs';
 import {catchError, delay, delayWhen, filter, finalize, map, retryWhen, shareReplay, tap} from 'rxjs/operators';
@@ -15,7 +15,8 @@ import {CoursesStore} from "../services/courses.store";
     selector: 'home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
-    standalone: false
+    standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
 

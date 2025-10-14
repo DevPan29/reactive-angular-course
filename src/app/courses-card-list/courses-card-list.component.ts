@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Course} from "../model/course";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
@@ -32,7 +32,8 @@ import {RouterModule} from "@angular/router";
     RouterModule
   ],
   templateUrl: './courses-card-list.component.html',
-  styleUrl: './courses-card-list.component.scss'
+  styleUrl: './courses-card-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesCardListComponent implements OnInit{
 
